@@ -26,6 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.navigation.Destinations
 
 
 class FabItem(
@@ -97,11 +100,19 @@ fun SmallFloatingActionButtonRow(
 
 @Composable
 fun MultiFloatingActionButton(
+    navController: NavHostController,
     fabIcon: ImageVector,
     items: List<FabItem>,
     showLabels: Boolean = true,
     onStateChanged: ((state: MultiFabState) -> Unit)? = null
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    if (currentRoute == null || currentRoute == Destinations.Login.route)
+    {
+        return
+    }
+
     var currentState by remember { mutableStateOf(MultiFabState.COLLAPSED) }
     val stateTransition: Transition<MultiFabState> =
         updateTransition(targetState = currentState, label = "")

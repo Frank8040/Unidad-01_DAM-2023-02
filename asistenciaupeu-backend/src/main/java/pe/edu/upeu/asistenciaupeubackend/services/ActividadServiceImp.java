@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pe.edu.upeu.asistenciaupeubackend.exceptions.AppException;
 
 import pe.edu.upeu.asistenciaupeubackend.exceptions.ResourceNotFoundException;
 
@@ -34,12 +36,20 @@ public class ActividadServiceImp implements ActividadService{
     @Override
     public Actividad save(Actividad activiad) {
         
-        return actividadRepo.save(activiad);
+        try {
+            return actividadRepo.save(activiad);
+        } catch (Exception e) {
+            throw new AppException("Error-"+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
     public List<Actividad> findAll() {
-        return actividadRepo.findAll();
+        try {
+            return actividadRepo.findAll();
+        } catch (Exception e) {
+            throw new AppException("Error-"+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override

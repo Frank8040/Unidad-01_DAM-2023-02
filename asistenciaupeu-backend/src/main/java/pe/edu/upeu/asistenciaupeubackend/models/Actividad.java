@@ -24,7 +24,8 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Size;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -54,17 +55,19 @@ public class Actividad {
     @Basic(optional = false)
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private LocalDate fecha;
 
+    @JsonFormat(pattern = "HH:mm:ss")
     @Basic(optional = false)
     @Column(name = "horai", nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date horai;
+    private LocalTime horai;
 
+    @JsonFormat(pattern = "HH:mm:ss")
     @Basic(optional = false)
     @Column(name = "min_toler", nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date minToler;
+    private LocalTime minToler;
     @Size(max = 60)
     private String latitud;
     @Size(max = 60)
