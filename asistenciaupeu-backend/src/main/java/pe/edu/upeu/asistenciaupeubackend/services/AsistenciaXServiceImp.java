@@ -4,15 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
+import pe.edu.upeu.asistenciaupeubackend.dtos.AsistenciaxDto;
 import pe.edu.upeu.asistenciaupeubackend.exceptions.AppException;
 import pe.edu.upeu.asistenciaupeubackend.exceptions.ResourceNotFoundException;
+import pe.edu.upeu.asistenciaupeubackend.mappers.AsistenciaxMapper;
 import pe.edu.upeu.asistenciaupeubackend.models.Asistenciax;
 import pe.edu.upeu.asistenciaupeubackend.repositories.AsistenciaxRepository;
 
@@ -20,6 +21,7 @@ import pe.edu.upeu.asistenciaupeubackend.repositories.AsistenciaxRepository;
  *
  * @author DELL
  */
+
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -27,11 +29,20 @@ public class AsistenciaXServiceImp implements AsistenciaXService {
     @Autowired
     private AsistenciaxRepository asistenciaXRepo;
 
-    @Override
-    public Asistenciax save(Asistenciax asistencaix) {
+    @Autowired
+    private ActividadService actividadService;
 
+    private final AsistenciaxMapper asistenciaxMapper;
+
+    @Override
+    public Asistenciax save(AsistenciaxDto.AsistenciasxCrearDto asistenciax) {
+
+        Asistenciax matEnt = asistenciaxMapper.asistenciasxCrearDtoToAsistenciax(asistenciax);
+        matEnt.setActividadId(actividadService.getActividadById(asistenciax.actividadId()));
+        System.out.println(asistenciax.fecha());
+        System.out.println(asistenciax.horaReg());
         try {
-            return asistenciaXRepo.save(asistencaix);
+            return asistenciaXRepo.save(matEnt);
         } catch (Exception e) {
             throw new AppException("Error-" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -59,20 +70,21 @@ public class AsistenciaXServiceImp implements AsistenciaXService {
     }
 
     @Override
-    public Asistenciax getActividadById(Long id) {
+    public Asistenciax getAsistenciaxById(Long id) {
         Asistenciax findAsistencia = asistenciaXRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Asistencia not exist with id :" + id));
         return findAsistencia;
     }
 
     @Override
-    public Asistenciax update(Asistenciax asistencaix, Long id) {
-        Asistenciax asistenciaX = asistenciaXRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Periodo not exist with id :" + id));
-        // Actualiza los campos de Asistenciax
-        asistenciaX.setFecha(asistencaix.getFecha());
-        asistenciaX.setHoraReg(asistencaix.getHoraReg());
+    public Asistenciax update(AsistenciaxDto.AsistenciasxCrearDto asistenciax, Long id) {
 
-        return asistenciaXRepo.save(asistenciaX);
+        Asistenciax asistenciaxx = asistenciaXRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Periodo not exist with id :" + id));
+        asistenciaxx.setFecha(asistenciax.fecha());
+        asistenciaxx.setHoraReg(asistenciax.horaReg());
+        asistenciaxx.setOfflinex(asistenciax.offlinex());
+
+        return asistenciaXRepo.save(asistenciaxx);
     }
 }

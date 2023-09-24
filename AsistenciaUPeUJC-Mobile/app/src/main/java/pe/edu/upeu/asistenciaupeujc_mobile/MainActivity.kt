@@ -102,6 +102,7 @@ fun GreetingPreview() {
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
@@ -120,7 +121,7 @@ fun MainScreen(
         Destinations.Pantalla4,
         Destinations.Pantalla5,
         Destinations.ActividadUI,
-        Destinations.AsistenciaXUI
+        Destinations.AsistenciaXUI,
     )
     val navigationItems2 = listOf(
         Destinations.Pantalla1,

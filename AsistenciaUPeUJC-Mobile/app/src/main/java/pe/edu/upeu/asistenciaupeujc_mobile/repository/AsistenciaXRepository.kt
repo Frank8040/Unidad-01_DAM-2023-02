@@ -10,12 +10,13 @@ import okhttp3.Dispatcher
 import pe.edu.upeu.asistenciaupeujc_mobile.data.local.dao.AsistenciaXDao
 import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestAsistenciaX
 import pe.edu.upeu.asistenciaupeujc_mobile.models.Asistenciapa
+import pe.edu.upeu.asistenciaupeujc_mobile.models.AsistenciapaConActividad
 import pe.edu.upeu.asistenciaupeujc_mobile.utils.TokenUtils
 import javax.inject.Inject
 
 interface AsistenciaXRepository {
-    suspend fun deleteAsistenciaX(asistenciaX: Asistenciapa)
-    fun reportarAsistenciasX():LiveData<List<Asistenciapa>>
+    suspend fun deleteAsistenciaX(asistenciaX: AsistenciapaConActividad)
+    fun reportarAsistenciasX():LiveData<List<AsistenciapaConActividad>>
 
     fun buscarAsistenciaXId(id:Long):LiveData<Asistenciapa>
 
@@ -28,19 +29,22 @@ class AsistenciaXRepositoryImp @Inject constructor(
     private val restAsistenciaX: RestAsistenciaX,
     private val asistenciaXDao: AsistenciaXDao
 ): AsistenciaXRepository{
-    override suspend fun deleteAsistenciaX(asistenciaX: Asistenciapa){
+    override suspend fun deleteAsistenciaX(asistenciaX: AsistenciapaConActividad){
         CoroutineScope(Dispatchers.IO).launch {
             restAsistenciaX.deleteAsistenciaX(TokenUtils.TOKEN_CONTENT,asistenciaX.id)
         }
-        asistenciaXDao.eliminarAsistenciaX(asistenciaX)
+        asistenciaXDao.eliminarAsistenciaX(asistenciaX.id)
     }
 
-    override fun reportarAsistenciasX():LiveData<List<Asistenciapa>>{
+    override fun reportarAsistenciasX():LiveData<List<AsistenciapaConActividad>>{
         try {
             CoroutineScope(Dispatchers.IO).launch{
                 delay(3000)
                 val data=restAsistenciaX.reportarAsistenciaX(TokenUtils.TOKEN_CONTENT).body()!!
-                asistenciaXDao.insertarAsistenciasX(data)
+                val dataxx = data.map {
+                    Asistenciapa(it.id, it.fecha, it.horaReg, it.latituda,it.longituda,it.tipo, it.calificacion,it.cui, it.tipoCui, it.entsal,it.subactasisId, it.offlinex, it.actividadId.id)
+                }
+                asistenciaXDao.insertarAsistenciasX(dataxx)
             }
         }catch (e:Exception){
             Log.i("ERROR", "Error: ${e.message}")

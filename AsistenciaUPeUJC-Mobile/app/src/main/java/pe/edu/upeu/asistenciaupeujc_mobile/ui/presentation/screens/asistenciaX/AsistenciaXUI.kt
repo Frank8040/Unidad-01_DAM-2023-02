@@ -56,6 +56,7 @@ import pe.edu.upeu.asistenciaupeujc_mobile.utils.TokenUtils
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import pe.edu.upeu.asistenciaupeujc_mobile.R
+import pe.edu.upeu.asistenciaupeujc_mobile.models.AsistenciapaConActividad
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.BottomNavigationBar
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.FabItem
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.LoadingCard
@@ -89,10 +90,10 @@ val formatoFecha: DateTimeFormatter? = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 @Composable
 fun MyApp( navController: NavHostController,
     onAddClick: (() -> Unit)? = null,
-    onDeleteClick: ((toDelete: Asistenciapa) -> Unit)? = null,
-    asistencias: List<Asistenciapa>,
+    onDeleteClick: ((toDelete: AsistenciapaConActividad) -> Unit)? = null,
+    asistencias: List<AsistenciapaConActividad>,
     isLoading: Boolean,
-    onEditClick: ((toPersona: Asistenciapa) -> Unit)? = null,
+    onEditClick: ((toPersona: AsistenciapaConActividad) -> Unit)? = null,
 ) {
     val context = LocalContext.current
     //val navController = rememberNavController()

@@ -65,7 +65,8 @@ fun AsistenciaXForm(
             "",
             "",
             0,
-            ""
+            "",
+            0
         )
     }
     val isLoading by viewModel.isLoading.observeAsState(false)
@@ -103,7 +104,8 @@ fun formulario(id:Long,
         "",
         "",
         0,
-        ""
+        "",
+        0
     )
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -147,12 +149,6 @@ fun formulario(id:Long,
                 NameTextField(easyForms = easyForm, text = actividad.calificacion.toString(), label = "Calificación:", key = MyFormKeys.CALIFICACION)
                 NameTextField(easyForms = easyForm, text =actividad?.cui!!,"Tipo CUI:", MyFormKeys.CUI )
                 NameTextField(easyForms = easyForm, text =actividad?.tipoCui!!,"Tipo CUI:", MyFormKeys.TIPOCUI )
-                /*var listE = listOf(
-                    ComboModel("Activo","Activo"),
-                    ComboModel("Desactivo","Desactivo"),
-                )
-                ComboBox(easyForm = easyForm, "Estado:", actividad?.estado!!, listE)*/
-
                 var listEv = listOf(
                     ComboModel("SI","SI"),
                     ComboModel("NO","NO"),
@@ -160,6 +156,7 @@ fun formulario(id:Long,
                 DropdownMenuCustom(easyForm = easyForm, label = "Reg. Entrada y Salida:", actividad.entsal, list =listEv, MyFormKeys.ENTSAL )
                 NameTextField(easyForms = easyForm, text = actividad.subactasisId.toString(), label = "SubactasisId:", key = MyFormKeys.SUBACTASISID)
                 DropdownMenuCustom(easyForm = easyForm, label = "Reg. Offline:", actividad.offlinex, list =listEv, MyFormKeys.OFFLINE )
+                NameTextField(easyForms = easyForm, text =actividad?.actividadId!!.toString(),"actividadID:", MyFormKeys.ACTIVIDADID )
 
                 Row(Modifier.align(Alignment.CenterHorizontally)){
                     AccionButtonSuccess(easyForms = easyForm, "Guardar", id){
@@ -174,17 +171,20 @@ fun formulario(id:Long,
                         person.entsal= splitCadena((lista.get(6) as EasyFormsResult.GenericStateResult<String>).value)
                         person.subactasisId = (lista.get(7) as EasyFormsResult.GenericStateResult<String>).value.toLong()
                         person.offlinex= splitCadena((lista.get(8) as EasyFormsResult.GenericStateResult<String>).value)
+                        person.actividadId = (lista.get(7) as EasyFormsResult.StringResult).value.toLong()
 
                         if (id==0.toLong()){
                             Log.i("AGREGAR", "ES:"+ person.entsal)
                             Log.i("AGREGAR", "OF:"+ person.offlinex)
+                            Log.i("AGREGARID", "OF:"+ person.actividadId)
                             viewModel.addAsistenciaX(person)
+                            navController.navigate(Destinations.AsistenciaXUI.route)
                         }else{
                             person.id=id
                             Log.i("MODIFICAR", "M:"+person)
                             viewModel.editAsistenciaX(person)
+                            navController.navigate(Destinations.AsistenciaXUI.route)
                         }
-                        navController.navigate(Destinations.AsistenciaXUI.route)
                     }
                     Spacer()
                     AccionButtonCancel(easyForms = easyForm, "Cancelar"){

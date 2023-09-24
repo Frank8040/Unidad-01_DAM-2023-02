@@ -18,5 +18,37 @@ data class Asistenciapa(
     var entsal: String,
     var subactasisId: Long,
     var offlinex: String,
-    //var actividadId: Long,
+    var actividadId: Long,
+)
+
+data class AsistenciapaConActividad(
+    var id: Long,
+    var fecha: String,
+    var horaReg: String,
+    var latituda: String,
+    var longituda: String,
+    var tipo: String,
+    var calificacion: Long,
+    var cui: String,
+    var tipoCui: String,
+    var entsal: String,
+    var subactasisId: Long,
+    var offlinex: String,
+    var nombreActividad: String
+)
+
+data class AsistenciapaReport(
+    var id: Long,
+    var fecha: String,
+    var horaReg: String,
+    var latituda: String,
+    var longituda: String,
+    var tipo: String,
+    var calificacion: Long,
+    var cui: String,
+    var tipoCui: String,
+    var entsal: String,
+    var subactasisId: Long,
+    var offlinex: String,
+    var actividadId: Actividad
 )

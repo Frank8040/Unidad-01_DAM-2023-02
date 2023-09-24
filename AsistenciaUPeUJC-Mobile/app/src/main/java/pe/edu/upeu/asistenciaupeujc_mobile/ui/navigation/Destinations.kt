@@ -27,19 +27,19 @@ sealed class Destinations(
 
     object Pantalla5 : Destinations( "pantalla5", "Perfil", Icons.Filled.AccountBox )
 
-    object ActividadUI: Destinations("actividadUI","Adm. Actividades", Icons.Filled.DateRange)
+    object ActividadUI: Destinations("ActividadUI","Adm. Actividades", Icons.Filled.DateRange)
 
-    object ActividadForm: Destinations("actividadForm?actId={actId}", "Form Actividad", Icons.Filled.Add){
+    object ActividadForm: Destinations("ActividadForm?actId={actId}", "Form Actividad", Icons.Filled.Add){
         fun passId(actId:String?):String{
-            return "actividadForm?actId=$actId"
+            return "ActividadForm?actId=$actId"
         }
     }
 
-    object AsistenciaXUI: Destinations("asistenciaXUI","Adm. Asistencias", Icons.Filled.List)
+    object AsistenciaXUI: Destinations("AsistenciaXUI","Adm. Asistencias", Icons.Filled.List)
 
-    object AsistenciaXForm: Destinations("asistenciaXForm?actId={actId}", "Form Asistencia", Icons.Filled.Add){
-        fun passId(actId:String?):String{
-            return "asistenciaXForm?actId=$actId"
+    object AsistenciaXForm: Destinations("AsistenciaXForm?asistId={asistId}", "Form Asistencia", Icons.Filled.Add){
+        fun passId(asistId:String?):String{
+            return "AsistenciaXForm?asistId=$asistId"
         }
     }
 }

@@ -30,14 +30,21 @@ class AsistenciaXFormViewModel @Inject constructor(
 
     fun addAsistenciaX(asistenciaX: Asistenciapa){
         viewModelScope.launch (Dispatchers.IO){
-            Log.i("REAL", asistenciaX.toString())
-            asistRepo.insertarAsistenciaX(asistenciaX)
+            try {
+                asistRepo.insertarAsistenciaX(asistenciaX)
+            }catch (e:Exception){
+                Log.i("Error", "${e.message}")
+            }
         }
     }
     
     fun editAsistenciaX(asistenciaX: Asistenciapa){
         viewModelScope.launch(Dispatchers.IO){
-            asistRepo.modificarRemoteAsistenciaX(asistenciaX)
+            try {
+                asistRepo.modificarRemoteAsistenciaX(asistenciaX)
+            }catch (e:Exception){
+                Log.i("Error", "${e.message}")
+            }
         }
     }
 }

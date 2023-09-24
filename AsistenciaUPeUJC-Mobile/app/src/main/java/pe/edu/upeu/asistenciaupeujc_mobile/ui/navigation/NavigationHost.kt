@@ -70,20 +70,24 @@ fun NavigationHost(
             ActividadUI(navegarEditarAct = {newText->navController.navigate(Destinations.ActividadForm.passId(newText))}, navController = navController )
         }
 
-        composable(Destinations.ActividadForm.route, arguments = listOf(navArgument("actId"){defaultValue="actId"})){
-            navBackStackEntry ->  var actId = navBackStackEntry.arguments?.getString("actId")
+        composable(Destinations.ActividadForm.route, arguments = listOf(navArgument("actId"){
+            defaultValue="actId"
+        })){
+                navBackStackEntry -> var actId=navBackStackEntry.arguments?.getString("actId")
             requireNotNull(actId)
-            ActividadForm(text = actId, darkMode = darkMode, navController = navController)
+            ActividadForm(text = actId, darkMode = darkMode, navController =navController )
         }
 
         composable(Destinations.AsistenciaXUI.route){
             AsistenciaXUI(navegarEditarAct = {newText->navController.navigate(Destinations.AsistenciaXForm.passId(newText))}, navController = navController )
         }
 
-        composable(Destinations.AsistenciaXForm.route, arguments = listOf(navArgument("actId"){defaultValue="actId"})){
-                navBackStackEntry ->  var actId = navBackStackEntry.arguments?.getString("actId")
-            requireNotNull(actId)
-            AsistenciaXForm(text = actId, darkMode = darkMode, navController = navController)
+        composable(Destinations.AsistenciaXForm.route, arguments = listOf(navArgument("asistId"){
+            defaultValue="asistId"
+        })){
+                navBackStackEntry ->  var asistId = navBackStackEntry.arguments?.getString("asistId")
+            requireNotNull(asistId)
+            AsistenciaXForm(text = asistId, darkMode = darkMode, navController = navController)
         }
     }
 }

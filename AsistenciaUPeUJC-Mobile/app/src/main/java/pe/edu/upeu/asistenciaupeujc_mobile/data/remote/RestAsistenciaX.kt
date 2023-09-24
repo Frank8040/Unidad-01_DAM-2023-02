@@ -1,6 +1,7 @@
 package pe.edu.upeu.asistenciaupeujc_mobile.data.remote
 
 import pe.edu.upeu.asistenciaupeujc_mobile.models.Asistenciapa
+import pe.edu.upeu.asistenciaupeujc_mobile.models.AsistenciapaReport
 import pe.edu.upeu.asistenciaupeujc_mobile.models.MsgGeneric
 import retrofit2.Response
 import retrofit2.http.Body
@@ -14,7 +15,7 @@ import retrofit2.http.Query
 
 interface RestAsistenciaX {
     @GET("/asis/asistenciaX/list")
-    suspend fun reportarAsistenciaX(@Header("Authorization") token:String):Response<List<Asistenciapa>>
+    suspend fun reportarAsistenciaX(@Header("Authorization") token:String):Response<List<AsistenciapaReport>>
 
     @GET("/asis/asistenciaX/buscar/{id}")
     suspend fun getAsistenciaXId(@Header("Authorization") token:String, @Query("id") id:Long):Response<Asistenciapa>
