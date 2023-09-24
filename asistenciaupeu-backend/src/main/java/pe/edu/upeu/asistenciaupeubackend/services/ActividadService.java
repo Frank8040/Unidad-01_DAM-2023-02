@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package pe.edu.upeu.asistenciaupeubackend.services;
 
 import java.util.List;
@@ -14,7 +10,7 @@ import pe.edu.upeu.asistenciaupeubackend.models.Actividad;
  * @author DELL
  */
 public interface ActividadService {
-     Actividad save(Actividad activiad);
+    Actividad save(Actividad activiad);
 
     List<Actividad> findAll();
 

@@ -2,9 +2,13 @@ package pe.edu.upeu.asistenciaupeujc_mobile.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -22,4 +26,20 @@ sealed class Destinations(
     object Pantalla4 : Destinations("pantalla4", "Pantalla 4x", Icons.Filled.Face )
 
     object Pantalla5 : Destinations( "pantalla5", "Perfil", Icons.Filled.AccountBox )
+
+    object ActividadUI: Destinations("actividadUI","Adm. Actividades", Icons.Filled.DateRange)
+
+    object ActividadForm: Destinations("actividadForm?actId={actId}", "Form Actividad", Icons.Filled.Add){
+        fun passId(actId:String?):String{
+            return "actividadForm?actId=$actId"
+        }
+    }
+
+    object AsistenciaXUI: Destinations("asistenciaXUI","Adm. Asistencias", Icons.Filled.List)
+
+    object AsistenciaXForm: Destinations("asistenciaXForm?actId={actId}", "Form Asistencia", Icons.Filled.Add){
+        fun passId(actId:String?):String{
+            return "asistenciaXForm?actId=$actId"
+        }
+    }
 }

@@ -27,8 +27,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.onFocusChanged
@@ -52,9 +54,10 @@ import java.util.Calendar
 import java.util.Date
 
 enum class MyFormKeys {
-    EMAIL, PASSWORD, SALUTATION, SALUTATION2,NAME, URL, CUSTOM_FOCUS,
+    EMAIL, PASSWORD, SALUTATION, SALUTATION2,NAME,TIPO,CUI,TIPOCUI,CALIFICACION, URL, CUSTOM_FOCUS,
     PHONE, CARD, CHECKBOX, LIST_CHECKBOX, TRI_CHECKBOX, RADIO_BUTTON,
-    SWITCH, SLIDER, RANGE_SLIDER,DNI, APE_PAT, APE_MAT, FECHA, TIME, TIME_TOLER
+    SWITCH, SLIDER, RANGE_SLIDER,DNI, APE_PAT, APE_MAT, FECHA, TIME, TIME_TOLER, MATERIALES, VALIDINSCRIP, ASISSUBACT, ENTSAL, OFFLINE,
+    SUBACTASISID,ACTIVIDADID
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -162,6 +165,117 @@ fun ComboBoxTwo(
                 requestToOpen = isOpen.value,
                 list = list,
             )
+        }
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0f)
+                .clickable(onClick = state.onClick)
+        )
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownMenuCustom(
+    easyForm: EasyForms,
+    label:String,
+    textv: String,
+    list:List<ComboModel>,
+    key:MyFormKeys,
+) {
+    val state = easyForm.addAndGetCustomState(
+        key, MyEasyFormsCustomStringState(
+            validData = list
+        )
+    )
+    val text = state.state
+    val isOpen = state.isOpen
+    if (textv != "") {
+        val seleccionado = list.find { it.code == textv }
+        text.value = seleccionado!!.name
+    }
+
+    var expanded by remember { mutableStateOf(false) }
+    val selectedCategory = remember { mutableStateOf(list.first()) }
+
+    Log.i("DATAXXX",text.value )
+    Box{
+        Column {
+            TextField(
+                value = text.value,
+                onValueChange = state.onValueChangedCallback,
+                label = { Text(text = label) },
+                placeholder = { Text(text = label) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(size=2)
+            DropdownMenu(expanded = state.isOpen.value,
+                onDismissRequest = state.onDismissed) {
+                list.forEach { category ->
+                    DropdownMenuItem(onClick = {
+                        selectedCategory.value = category
+                        state.onValueChangedCallback(if(category.code==category.name) category.code else category.code+"-"+category.name)
+                    }, text = {Text(text = category.name)}
+                    )
+                }
+            }
+        }
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .alpha(0f)
+                .clickable(onClick = state.onClick)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DropdownMenuCustomDate(
+    easyForm: EasyForms,
+    label: String,
+    selectedValue: String,
+    list: List<ComboModel>,
+    key: MyFormKeys
+) {
+    val state = easyForm.addAndGetCustomState(
+        key, MyEasyFormsCustomStringStateDate(
+            validData = list.map { it.code } // Obtén los códigos de ComboModel
+        )
+    )
+    val text = state.state
+    val isOpen = state.isOpen
+
+    var expanded by remember { mutableStateOf(false) }
+    val selectedCategory = remember { mutableStateOf(list.first()) }
+
+    // Cuando se selecciona un valor, actualiza el texto en el estado
+    if (selectedValue != "") {
+        val seleccionado = list.find { it.code == selectedValue }
+        text.value = seleccionado?.name ?: ""
+    }
+
+    Box {
+        Column {
+            TextField(
+                value = text.value,
+                onValueChange = state.onValueChangedCallback,
+                label = { Text(text = label) },
+                placeholder = { Text(text = label) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(size = 2)
+            DropdownMenu(expanded = state.isOpen.value,
+                onDismissRequest = state.onDismissed) {
+                list.forEach { category ->
+                    DropdownMenuItem(onClick = {
+                        selectedCategory.value = category
+                        state.onValueChangedCallback(category.code)
+                    }, text = { Text(text = category.name) })
+                }
+            }
         }
         Box(
             modifier = Modifier
@@ -447,13 +561,13 @@ fun PhoneTextField(easyForms: EasyForms, text: String, label:String) {
 fun AccionButtonSuccess(
     easyForms: EasyForms,
     label:String,
-    id:Int,
+    id:Long,
     onClick: () -> Unit,
 
     ) {
     val errorStates = easyForms.observeFormStates()
     Log.i("DATOCC", id.toString())
-    if(id==0){
+    if(id==0.toLong()){
         Button(
             onClick = onClick,
             modifier = Modifier.wrapContentWidth(),
