@@ -25,35 +25,35 @@ interface AsistenciaXRepository {
 }
 
 class AsistenciaXRepositoryImp @Inject constructor(
-    private val restActividad: RestAsistenciaX,
-    private val actividadDao: AsistenciaXDao
+    private val restAsistenciaX: RestAsistenciaX,
+    private val asistenciaXDao: AsistenciaXDao
 ): AsistenciaXRepository{
     override suspend fun deleteAsistenciaX(asistenciaX: Asistenciapa){
         CoroutineScope(Dispatchers.IO).launch {
-            restActividad.deleteAsistenciaX(TokenUtils.TOKEN_CONTENT,asistenciaX.id)
+            restAsistenciaX.deleteAsistenciaX(TokenUtils.TOKEN_CONTENT,asistenciaX.id)
         }
-        actividadDao.eliminarAsistenciaX(asistenciaX)
+        asistenciaXDao.eliminarAsistenciaX(asistenciaX)
     }
 
     override fun reportarAsistenciasX():LiveData<List<Asistenciapa>>{
         try {
             CoroutineScope(Dispatchers.IO).launch{
                 delay(3000)
-                val data=restActividad.reportarAsistenciaX(TokenUtils.TOKEN_CONTENT).body()!!
-                actividadDao.insertarAsistenciasX(data)
+                val data=restAsistenciaX.reportarAsistenciaX(TokenUtils.TOKEN_CONTENT).body()!!
+                asistenciaXDao.insertarAsistenciasX(data)
             }
         }catch (e:Exception){
             Log.i("ERROR", "Error: ${e.message}")
         }
-        return actividadDao.reportatAsistenciaX()
+        return asistenciaXDao.reportatAsistenciaX()
     }
 
     override fun buscarAsistenciaXId(id:Long):LiveData<Asistenciapa>{
-        return  actividadDao.buscarAsistenciaX(id)
+        return  asistenciaXDao.buscarAsistenciaX(id)
     }
 
     override suspend fun insertarAsistenciaX(asistenciaX: Asistenciapa):Boolean{
-        return restActividad.insertarAsistenciaX(TokenUtils.TOKEN_CONTENT, asistenciaX).body()!=null
+        return restAsistenciaX.insertarAsistenciaX(TokenUtils.TOKEN_CONTENT, asistenciaX).body()!=null
     }
 
     override suspend fun modificarRemoteAsistenciaX(asistenciaX: Asistenciapa):Boolean{
@@ -61,7 +61,7 @@ class AsistenciaXRepositoryImp @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             Log.i("VER", TokenUtils.TOKEN_CONTENT)
         }
-        return restActividad.actualizarAsistenciaX(TokenUtils.TOKEN_CONTENT, asistenciaX.id, asistenciaX).body()!=null
+        return restAsistenciaX.actualizarAsistenciaX(TokenUtils.TOKEN_CONTENT, asistenciaX.id, asistenciaX).body()!=null
     }
 
 }

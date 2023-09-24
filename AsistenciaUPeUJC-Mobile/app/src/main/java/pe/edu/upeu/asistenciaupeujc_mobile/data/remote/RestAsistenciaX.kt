@@ -13,18 +13,18 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RestAsistenciaX {
-    @GET("/asis/asistenciax/list")
+    @GET("/asis/asistenciaX/list")
     suspend fun reportarAsistenciaX(@Header("Authorization") token:String):Response<List<Asistenciapa>>
 
-    @GET("/asis/asistenciax/buscar/{id}")
+    @GET("/asis/asistenciaX/buscar/{id}")
     suspend fun getAsistenciaXId(@Header("Authorization") token:String, @Query("id") id:Long):Response<Asistenciapa>
 
-    @DELETE("/asis/asistenciax/eliminar/{id}")
+    @DELETE("/asis/asistenciaX/eliminar/{id}")
     suspend fun deleteAsistenciaX(@Header("Authorization") token:String, @Path("id") id:Long):Response<MsgGeneric>
 
-    @PUT("/asis/asistenciax/editar/{id}")
+    @PUT("/asis/asistenciaX/editar/{id}")
     suspend fun actualizarAsistenciaX(@Header("Authorization") token:String, @Path("id") id:Long, @Body asistenciaX: Asistenciapa): Response<Asistenciapa>
 
-    @POST("/asis/asistenciax/crear")
+    @POST("/asis/asistenciaX/crear")
     suspend fun insertarAsistenciaX(@Header("Authorization") token:String,@Body asistenciaX: Asistenciapa): Response<Asistenciapa>
 }

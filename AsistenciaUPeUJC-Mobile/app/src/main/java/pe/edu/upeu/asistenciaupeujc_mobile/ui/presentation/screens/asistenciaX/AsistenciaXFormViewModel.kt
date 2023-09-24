@@ -15,29 +15,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AsistenciaXFormViewModel @Inject constructor(
-    private val activRepo: AsistenciaXRepository,
+    private val asistRepo: AsistenciaXRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
 
-    fun getActividad(idX: Long): LiveData<Asistenciapa> {
-        return activRepo.buscarAsistenciaXId(idX)
+    fun getAsistenciaX(idX: Long): LiveData<Asistenciapa> {
+        return asistRepo.buscarAsistenciaXId(idX)
     }
 
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    fun addActividad(asistenciaX: Asistenciapa){
+    fun addAsistenciaX(asistenciaX: Asistenciapa){
         viewModelScope.launch (Dispatchers.IO){
             Log.i("REAL", asistenciaX.toString())
-            activRepo.insertarAsistenciaX(asistenciaX)
+            asistRepo.insertarAsistenciaX(asistenciaX)
         }
     }
     
-    fun editActividad(asistenciaX: Asistenciapa){
+    fun editAsistenciaX(asistenciaX: Asistenciapa){
         viewModelScope.launch(Dispatchers.IO){
-            activRepo.modificarRemoteAsistenciaX(asistenciaX)
+            asistRepo.modificarRemoteAsistenciaX(asistenciaX)
         }
     }
 }

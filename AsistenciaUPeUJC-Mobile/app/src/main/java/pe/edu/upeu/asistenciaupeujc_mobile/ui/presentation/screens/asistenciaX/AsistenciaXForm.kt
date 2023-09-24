@@ -178,17 +178,17 @@ fun formulario(id:Long,
                         if (id==0.toLong()){
                             Log.i("AGREGAR", "ES:"+ person.entsal)
                             Log.i("AGREGAR", "OF:"+ person.offlinex)
-                            viewModel.addActividad(person)
+                            viewModel.addAsistenciaX(person)
                         }else{
                             person.id=id
                             Log.i("MODIFICAR", "M:"+person)
-                            viewModel.editActividad(person)
+                            viewModel.editAsistenciaX(person)
                         }
-                        navController.navigate(Destinations.ActividadUI.route)
+                        navController.navigate(Destinations.AsistenciaXUI.route)
                     }
                     Spacer()
                     AccionButtonCancel(easyForms = easyForm, "Cancelar"){
-                        navController.navigate(Destinations.ActividadUI.route)
+                        navController.navigate(Destinations.AsistenciaXUI.route)
                     }
                 }
             }

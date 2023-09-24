@@ -10,7 +10,9 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import pe.edu.upeu.asistenciaupeujc_mobile.data.local.DbDataSource
 import pe.edu.upeu.asistenciaupeujc_mobile.data.local.dao.ActividadDao
+import pe.edu.upeu.asistenciaupeujc_mobile.data.local.dao.AsistenciaXDao
 import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestActividad
+import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestAsistenciaX
 import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestUsuario
 import pe.edu.upeu.asistenciaupeujc_mobile.utils.TokenUtils
 import retrofit2.Retrofit
@@ -58,6 +60,11 @@ class DataSourceModule {
         return retrofit.create(RestActividad::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun restAsistenciaX(retrofit: Retrofit):RestAsistenciaX{
+        return retrofit.create(RestAsistenciaX::class.java)
+    }
 
     @Singleton
     @Provides
@@ -70,6 +77,12 @@ class DataSourceModule {
     @Provides
     fun actividadDao(db:DbDataSource):ActividadDao{
         return db.actividadDao()
+    }
+
+    @Singleton
+    @Provides
+    fun asistenciaXDao(db:DbDataSource):AsistenciaXDao{
+        return db.asistenciaXDao()
     }
 
 }

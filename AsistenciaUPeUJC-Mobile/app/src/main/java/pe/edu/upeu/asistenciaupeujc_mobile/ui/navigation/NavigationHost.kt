@@ -16,6 +16,10 @@ import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.Pantalla2
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.Pantalla3
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.Pantalla4
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.Pantalla5
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.actividad.ActividadForm
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.actividad.ActividadUI
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.asistenciaX.AsistenciaXUI
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.asistenciaX.AsistenciaXForm
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.login.LoginScreen
 
 @Composable
@@ -55,8 +59,31 @@ fun NavigationHost(
             Pantalla5(
                 navegarPantalla2 = { newText ->navController.navigate(Destinations.Pantalla2.createRoute(newText))
                 },
-                modifier = Modifier.padding().fillMaxSize().fillMaxWidth()
+                modifier = Modifier
+                    .padding()
+                    .fillMaxSize()
+                    .fillMaxWidth()
             )
+        }
+
+        composable(Destinations.ActividadUI.route){
+            ActividadUI(navegarEditarAct = {newText->navController.navigate(Destinations.ActividadForm.passId(newText))}, navController = navController )
+        }
+
+        composable(Destinations.ActividadForm.route, arguments = listOf(navArgument("actId"){defaultValue="actId"})){
+            navBackStackEntry ->  var actId = navBackStackEntry.arguments?.getString("actId")
+            requireNotNull(actId)
+            ActividadForm(text = actId, darkMode = darkMode, navController = navController)
+        }
+
+        composable(Destinations.AsistenciaXUI.route){
+            AsistenciaXUI(navegarEditarAct = {newText->navController.navigate(Destinations.AsistenciaXForm.passId(newText))}, navController = navController )
+        }
+
+        composable(Destinations.AsistenciaXForm.route, arguments = listOf(navArgument("actId"){defaultValue="actId"})){
+                navBackStackEntry ->  var actId = navBackStackEntry.arguments?.getString("actId")
+            requireNotNull(actId)
+            AsistenciaXForm(text = actId, darkMode = darkMode, navController = navController)
         }
     }
 }

@@ -4,6 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import pe.edu.upeu.asistenciaupeujc_mobile.repository.AsistenciaXRepository
+import pe.edu.upeu.asistenciaupeujc_mobile.repository.AsistenciaXRepositoryImp
 import pe.edu.upeu.asistenciaupeujc_mobile.repository.ActividadRepository
 import pe.edu.upeu.asistenciaupeujc_mobile.repository.ActividadRepositoryImp
 import pe.edu.upeu.asistenciaupeujc_mobile.repository.UsuarioRepository
@@ -21,5 +23,9 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun actividadRepository(actRepos:ActividadRepositoryImp):ActividadRepository
+
+    @Binds
+    @Singleton
+    abstract fun asistenciaXRepository(actRepos:AsistenciaXRepositoryImp):AsistenciaXRepository
 
 }

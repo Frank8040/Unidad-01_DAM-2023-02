@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pe.edu.upeu.asistenciaupeujc_mobile.models.Actividad
-import pe.edu.upeu.asistenciaupeujc_mobile.models.Asistenciapa
 import pe.edu.upeu.asistenciaupeujc_mobile.repository.ActividadRepository
 import javax.inject.Inject
 

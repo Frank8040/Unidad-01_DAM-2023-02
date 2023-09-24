@@ -32,7 +32,7 @@ class ActividadViewModel @Inject constructor(
 
     fun deleteActividad(toDelete: Actividad) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.i("ELIMAR", toDelete.toString())
+            Log.i("ELIMINAR", toDelete.toString())
             activRepo.deleteActividad(toDelete);
         }
     }

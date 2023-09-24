@@ -118,7 +118,7 @@ fun MyApp( navController: NavHostController,
         },
         FabItem(
             Icons.Filled.Favorite,
-            "Add Actvidad"
+            "Add Actividad"
         ) { onAddClick?.invoke() }
     )
 

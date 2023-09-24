@@ -90,7 +90,7 @@ val formatoFecha: DateTimeFormatter? = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 fun MyApp( navController: NavHostController,
     onAddClick: (() -> Unit)? = null,
     onDeleteClick: ((toDelete: Asistenciapa) -> Unit)? = null,
-    actividades: List<Asistenciapa>,
+    asistencias: List<Asistenciapa>,
     isLoading: Boolean,
     onEditClick: ((toPersona: Asistenciapa) -> Unit)? = null,
 ) {
@@ -146,7 +146,7 @@ fun MyApp( navController: NavHostController,
                 //.offset(x = (16).dp, y = (-32).dp),
                 userScrollEnabled= true,
             ){
-                var itemCount = actividades.size
+                var itemCount = asistencias.size
                 if (isLoading) itemCount++
                 items(count = itemCount) { index ->
                     var auxIndex = index;
@@ -155,7 +155,7 @@ fun MyApp( navController: NavHostController,
                             return@items LoadingCard()
                         auxIndex--
                     }
-                    val actividad = actividades[auxIndex]
+                    val asistenciaX = asistencias[auxIndex]
                     Card(
                         shape = RoundedCornerShape(8.dp),
                         elevation = CardDefaults.cardElevation(
@@ -172,7 +172,7 @@ fun MyApp( navController: NavHostController,
                                     //.clip(CircleShape)
                                     .clip(RoundedCornerShape(8.dp)),
                                 painter = rememberImagePainter(
-                                    data = actividad.offlinex,
+                                    data = asistenciaX.offlinex,
                                     builder = {
                                         placeholder(R.drawable.bg)
                                         error(R.drawable.bg)
@@ -185,8 +185,8 @@ fun MyApp( navController: NavHostController,
                             Column(
                                 Modifier.weight(1f),
                             ) {
-                                Text("${actividad.tipoCui} - ${actividad.tipoCui}", fontWeight = FontWeight.Bold)
-                                val datex = LocalDate.parse(actividad.fecha!!, DateTimeFormatter.ISO_DATE)
+                                Text("${asistenciaX.tipoCui} - ${asistenciaX.tipoCui}", fontWeight = FontWeight.Bold)
+                                val datex = LocalDate.parse(asistenciaX.fecha!!, DateTimeFormatter.ISO_DATE)
                                 var fecha=formatoFecha?.format(datex)
                                 Text(""+fecha, color =
                                 MaterialTheme.colorScheme.primary)
@@ -203,7 +203,7 @@ fun MyApp( navController: NavHostController,
                                 ConfirmDialog(
                                     message = "¿Está seguro de eliminar?",
                                     onConfirm = {
-                                        onDeleteClick?.invoke(actividad)
+                                        onDeleteClick?.invoke(asistenciaX)
                                         showDialog.value=false
                                     },
                                     onDimins = {
@@ -215,7 +215,7 @@ fun MyApp( navController: NavHostController,
                             IconButton(onClick = {
                                 Log.i("VERTOKEN", "Holas")
                                 Log.i("VERTOKEN", TokenUtils.TOKEN_CONTENT)
-                                onEditClick?.invoke(actividad)
+                                onEditClick?.invoke(asistenciaX)
                             }) {
                                 Icon(
                                     Icons.Filled.Edit,
