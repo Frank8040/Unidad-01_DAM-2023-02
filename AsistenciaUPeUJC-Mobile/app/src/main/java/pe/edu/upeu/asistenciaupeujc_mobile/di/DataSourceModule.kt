@@ -11,8 +11,10 @@ import okhttp3.OkHttpClient
 import pe.edu.upeu.asistenciaupeujc_mobile.data.local.DbDataSource
 import pe.edu.upeu.asistenciaupeujc_mobile.data.local.dao.ActividadDao
 import pe.edu.upeu.asistenciaupeujc_mobile.data.local.dao.AsistenciaXDao
+import pe.edu.upeu.asistenciaupeujc_mobile.data.local.dao.MaterialesxDao
 import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestActividad
 import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestAsistenciaX
+import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestMaterialesx
 import pe.edu.upeu.asistenciaupeujc_mobile.data.remote.RestUsuario
 import pe.edu.upeu.asistenciaupeujc_mobile.utils.TokenUtils
 import retrofit2.Retrofit
@@ -68,6 +70,12 @@ class DataSourceModule {
 
     @Singleton
     @Provides
+    fun restMaterialesx(retrofit: Retrofit): RestMaterialesx {
+        return retrofit.create(RestMaterialesx::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun dbDataSource(@ApplicationContext context:Context):DbDataSource{
         return Room.databaseBuilder(context, DbDataSource::class.java, "eventoasistencia_db")
             .fallbackToDestructiveMigration().build()
@@ -83,6 +91,12 @@ class DataSourceModule {
     @Provides
     fun asistenciaXDao(db:DbDataSource):AsistenciaXDao{
         return db.asistenciaXDao()
+    }
+
+    @Singleton
+    @Provides
+    fun materialesxDao(db:DbDataSource): MaterialesxDao {
+        return db.materialesxDao()
     }
 
 }

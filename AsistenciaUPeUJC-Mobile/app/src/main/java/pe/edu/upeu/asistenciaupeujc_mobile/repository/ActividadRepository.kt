@@ -61,12 +61,15 @@ class ActividadRepositoryImp @Inject constructor(
         return  actividadDao.buscarActividad(id)
     }
 
-
-    override suspend fun insertarActividad(actividad: Actividad): Boolean? {
-        return restActividad.insertarActividad(TokenUtils.TOKEN_CONTENT, actividad).body()
+    override suspend fun insertarActividad(actividad: Actividad):Boolean{
+        return restActividad.insertarActividad(TokenUtils.TOKEN_CONTENT, actividad).body()!=null
     }
 
-    override suspend fun modificarRemoteActividad(actividad: Actividad): Boolean? {
-        return restActividad.actualizarActividad(TokenUtils.TOKEN_CONTENT, actividad.id, actividad).body()
+    override suspend fun modificarRemoteActividad(actividad: Actividad):Boolean{
+        var dd:Boolean=false
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i("VER", TokenUtils.TOKEN_CONTENT)
+        }
+        return restActividad.actualizarActividad(TokenUtils.TOKEN_CONTENT, actividad.id, actividad).body()!=null
     }
 }
