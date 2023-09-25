@@ -69,7 +69,7 @@ fun AsistenciaXForm(
             0
         )
     }
-    val isLoading by viewModel.isLoading.observeAsState(false)
+
     formulario(actividadD.id!!,
         darkMode,
         navController,
@@ -109,7 +109,7 @@ fun formulario(id:Long,
     )
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-
+    val isLoading by viewModel.isLoading.observeAsState(false)
     var locationCallback: LocationCallback? = null
     var fusedLocationClient: FusedLocationProviderClient? = null
     fusedLocationClient = LocationServices.getFusedLocationProviderClient(
@@ -171,7 +171,7 @@ fun formulario(id:Long,
                         person.entsal= splitCadena((lista.get(6) as EasyFormsResult.GenericStateResult<String>).value)
                         person.subactasisId = (lista.get(7) as EasyFormsResult.GenericStateResult<String>).value.toLong()
                         person.offlinex= splitCadena((lista.get(8) as EasyFormsResult.GenericStateResult<String>).value)
-                        person.actividadId = (lista.get(7) as EasyFormsResult.StringResult).value.toLong()
+                        person.actividadId = (lista.get(9) as EasyFormsResult.StringResult).value.toLong()
 
                         if (id==0.toLong()){
                             Log.i("AGREGAR", "ES:"+ person.entsal)

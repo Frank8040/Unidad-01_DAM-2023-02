@@ -34,6 +34,7 @@ data class AsistenciapaConActividad(
     var entsal: String,
     var subactasisId: Long,
     var offlinex: String,
+    var actividadId: Long,
     var nombreActividad: String
 )
 

@@ -34,7 +34,6 @@ interface AsistenciaXDao {
     @Query("select m.*, a.nombreActividad from asistenciaX m, actividad a where m.actividadId=a.id")
     fun reportatAsistenciaX():LiveData<List<AsistenciapaConActividad>>
 
-
     @Query("select * from asistenciaX where id=:idx")
     fun buscarAsistenciaX(idx: Long):LiveData<Asistenciapa>
 

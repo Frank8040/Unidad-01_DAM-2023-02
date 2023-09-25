@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 interface ActividadRepository {
     suspend fun deleteActividad(actividad: Actividad)
+    
     fun reportarActividades():LiveData<List<Actividad>>
 
     fun buscarActividadId(id:Long):LiveData<Actividad>
@@ -35,35 +36,37 @@ class ActividadRepositoryImp @Inject constructor(
         actividadDao.eliminarActividad(actividad)
     }
 
-
-    override fun reportarActividades():LiveData<List<Actividad>>{
-        try {
-            CoroutineScope(Dispatchers.IO).launch{
+    override fun reportarActividades(): LiveData<List<Actividad>> {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
                 delay(3000)
-                val data=restActividad.reportarActividad(TokenUtils.TOKEN_CONTENT).body()!!
-                actividadDao.insertarActividades(data)
+                val response = restActividad.reportarActividad(TokenUtils.TOKEN_CONTENT)
+                if (response.isSuccessful) {
+                    val data = response.body()!!
+                    actividadDao.insertarActividades(data)
+                } else {
+                    // Manejo de errores de la solicitud a la API
+                    Log.e("ERROR", "Error en la solicitud: ${response.code()} - ${response.message()}")
+                }
+            } catch (e: Exception) {
+                // Manejo de excepciones generales
+                Log.e("ERROR", "Error: ${e.message}")
             }
-        }catch (e:Exception){
-            Log.i("ERROR", "Error: ${e.message}")
         }
         return actividadDao.reportatActividad()
     }
+
 
     override fun buscarActividadId(id:Long):LiveData<Actividad>{
         return  actividadDao.buscarActividad(id)
     }
 
 
-    override suspend fun insertarActividad(actividad: Actividad):Boolean{
-        return restActividad.insertarActividad(TokenUtils.TOKEN_CONTENT, actividad).body()!=null
+    override suspend fun insertarActividad(actividad: Actividad): Boolean? {
+        return restActividad.insertarActividad(TokenUtils.TOKEN_CONTENT, actividad).body()
     }
 
-    override suspend fun modificarRemoteActividad(actividad: Actividad):Boolean{
-        var dd:Boolean=false
-        CoroutineScope(Dispatchers.IO).launch {
-            Log.i("VER", TokenUtils.TOKEN_CONTENT)
-        }
-        return restActividad.actualizarActividad(TokenUtils.TOKEN_CONTENT, actividad.id, actividad).body()!=null
+    override suspend fun modificarRemoteActividad(actividad: Actividad): Boolean? {
+        return restActividad.actualizarActividad(TokenUtils.TOKEN_CONTENT, actividad.id, actividad).body()
     }
-
 }

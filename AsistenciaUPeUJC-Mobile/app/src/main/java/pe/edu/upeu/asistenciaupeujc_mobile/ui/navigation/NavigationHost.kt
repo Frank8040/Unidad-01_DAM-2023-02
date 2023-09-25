@@ -20,6 +20,8 @@ import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.actividad.Act
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.actividad.ActividadUI
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.asistenciaX.AsistenciaXUI
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.asistenciaX.AsistenciaXForm
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.materialesx.MaterialesxUI
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.materialesx.MaterialesxForm
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.login.LoginScreen
 
 @Composable
@@ -88,6 +90,18 @@ fun NavigationHost(
                 navBackStackEntry ->  var asistId = navBackStackEntry.arguments?.getString("asistId")
             requireNotNull(asistId)
             AsistenciaXForm(text = asistId, darkMode = darkMode, navController = navController)
+        }
+
+        composable(Destinations.MaterialesxUI.route){
+            MaterialesxUI(navegarEditarAct = {newText->navController.navigate(Destinations.MaterialesxForm.passId(newText))}, navController =navController )
+        }
+
+        composable(Destinations.MaterialesxForm.route, arguments = listOf(navArgument("matId"){
+            defaultValue="matId"
+        })){
+                navBackStackEntry -> var matId=navBackStackEntry.arguments?.getString("matId")
+            requireNotNull(matId)
+            MaterialesxForm(text = matId, darkMode = darkMode, navController =navController )
         }
     }
 }

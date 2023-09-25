@@ -15,13 +15,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AsistenciaXViewModel @Inject constructor(
-    private val activRepo: AsistenciaXRepository,
+    private val asistRepo: AsistenciaXRepository,
 ) : ViewModel(){
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
     val activ: LiveData<List<AsistenciapaConActividad>> by lazy {
-        activRepo.reportarAsistenciasX()
+        asistRepo.reportarAsistenciasX()
     }
     val isLoading: LiveData<Boolean> get() = _isLoading
     fun addAsistenciaX() {
@@ -34,7 +34,7 @@ class AsistenciaXViewModel @Inject constructor(
     fun deleteAsistenciaX(toDelete: AsistenciapaConActividad) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.i("ELIMINAR", toDelete.toString())
-            activRepo.deleteAsistenciaX(toDelete);
+            asistRepo.deleteAsistenciaX(toDelete);
         }
     }
 

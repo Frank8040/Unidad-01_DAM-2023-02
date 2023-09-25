@@ -55,7 +55,7 @@ import java.util.Date
 
 enum class MyFormKeys {
     EMAIL, PASSWORD, SALUTATION, SALUTATION2,NAME,TIPO,CUI,TIPOCUI,CALIFICACION, URL, CUSTOM_FOCUS,
-    PHONE, CARD, CHECKBOX, LIST_CHECKBOX, TRI_CHECKBOX, RADIO_BUTTON,
+    PHONE, CARD, CHECKBOX, LIST_CHECKBOX, TRI_CHECKBOX, RADIO_BUTTON,MATERENTRE,HORAREG,MODFH,
     SWITCH, SLIDER, RANGE_SLIDER,DNI, APE_PAT, APE_MAT, FECHA, TIME, TIME_TOLER, MATERIALES, VALIDINSCRIP, ASISSUBACT, ENTSAL, OFFLINE,
     SUBACTASISID,ACTIVIDADID
 }
@@ -233,61 +233,6 @@ fun DropdownMenuCustom(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownMenuCustomDate(
-    easyForm: EasyForms,
-    label: String,
-    selectedValue: String,
-    list: List<ComboModel>,
-    key: MyFormKeys
-) {
-    val state = easyForm.addAndGetCustomState(
-        key, MyEasyFormsCustomStringStateDate(
-            validData = list.map { it.code } // Obtén los códigos de ComboModel
-        )
-    )
-    val text = state.state
-    val isOpen = state.isOpen
-
-    var expanded by remember { mutableStateOf(false) }
-    val selectedCategory = remember { mutableStateOf(list.first()) }
-
-    // Cuando se selecciona un valor, actualiza el texto en el estado
-    if (selectedValue != "") {
-        val seleccionado = list.find { it.code == selectedValue }
-        text.value = seleccionado?.name ?: ""
-    }
-
-    Box {
-        Column {
-            TextField(
-                value = text.value,
-                onValueChange = state.onValueChangedCallback,
-                label = { Text(text = label) },
-                placeholder = { Text(text = label) },
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Spacer(size = 2)
-            DropdownMenu(expanded = state.isOpen.value,
-                onDismissRequest = state.onDismissed) {
-                list.forEach { category ->
-                    DropdownMenuItem(onClick = {
-                        selectedCategory.value = category
-                        state.onValueChangedCallback(category.code)
-                    }, text = { Text(text = category.name) })
-                }
-            }
-        }
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .alpha(0f)
-                .clickable(onClick = state.onClick)
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 fun DatePickerCustom(
     easyForm: EasyForms,
     label:String,
@@ -358,17 +303,12 @@ fun DatePickerCustom(
     )
 }
 
-
-
-
-
 fun dateShort(formF:String,r: Date?): String {
     return if (r != null) SimpleDateFormat(formF).format(r) else ""
 }
 fun timeShort(formF:String, r: Date?): String { //"HH:mm:ss"
     return if (r != null) SimpleDateFormat(formF).format(r) else ""
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

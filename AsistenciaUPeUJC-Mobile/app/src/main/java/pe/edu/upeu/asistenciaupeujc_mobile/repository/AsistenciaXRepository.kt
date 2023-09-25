@@ -61,7 +61,7 @@ class AsistenciaXRepositoryImp @Inject constructor(
     }
 
     override suspend fun modificarRemoteAsistenciaX(asistenciaX: Asistenciapa):Boolean{
-        var dd:Boolean=false
+  
         CoroutineScope(Dispatchers.IO).launch {
             Log.i("VER", TokenUtils.TOKEN_CONTENT)
         }
