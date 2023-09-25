@@ -84,7 +84,10 @@ public class AsistenciaXServiceImp implements AsistenciaXService {
         asistenciaxx.setFecha(asistenciax.fecha());
         asistenciaxx.setHoraReg(asistenciax.horaReg());
         asistenciaxx.setOfflinex(asistenciax.offlinex());
-
+        if (asistenciaxx.getActividadId() != null) {
+            asistenciaxx.setActividadId(asistenciaxx.getActividadId());
+        }
+        
         return asistenciaXRepo.save(asistenciaxx);
     }
 }

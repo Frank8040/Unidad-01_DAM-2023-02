@@ -28,13 +28,13 @@ class ActividadFormViewModel @Inject constructor(
 
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+
     fun addActividad(actividad: Actividad){
         viewModelScope.launch (Dispatchers.IO){
             Log.i("REAL", actividad.toString())
             activRepo.insertarActividad(actividad)
         }
     }
-    
     fun editActividad(actividad: Actividad){
         viewModelScope.launch(Dispatchers.IO){
             activRepo.modificarRemoteActividad(actividad)

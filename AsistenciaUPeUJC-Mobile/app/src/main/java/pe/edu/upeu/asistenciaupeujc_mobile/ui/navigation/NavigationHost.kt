@@ -69,7 +69,7 @@ fun NavigationHost(
         }
 
         composable(Destinations.ActividadUI.route){
-            ActividadUI(navegarEditarAct = {newText->navController.navigate(Destinations.ActividadForm.passId(newText))}, navController = navController )
+            ActividadUI(navegarEditarAct = {newText->navController.navigate(Destinations.ActividadForm.passId(newText))}, navController =navController )
         }
 
         composable(Destinations.ActividadForm.route, arguments = listOf(navArgument("actId"){

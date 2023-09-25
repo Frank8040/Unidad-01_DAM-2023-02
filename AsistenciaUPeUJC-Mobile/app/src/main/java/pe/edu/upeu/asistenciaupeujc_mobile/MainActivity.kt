@@ -1,5 +1,6 @@
 package pe.edu.upeu.asistenciaupeujc_mobile
 
+import android.Manifest
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Toast
@@ -20,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +34,8 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.navigation.Destinations
@@ -49,17 +53,42 @@ import pe.edu.upeu.asistenciaupeujc_mobile.ui.theme.LightPurpleColors
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.theme.LightRedColors
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.theme.ThemeType
 import pe.edu.upeu.asistenciaupeujc_mobile.utils.TokenUtils
+import pe.edu.upeu.asistenciaupeujc_mobile.utils.isNetworkAvailable
+import pe.edu.upeu.asistenciaupeujc_mobile.utils.isNight
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window,true)
         super.onCreate(savedInstanceState)
         setContent {
             val systemUiController= rememberSystemUiController()
             val themeType=remember{ mutableStateOf(ThemeType.RED) }
-            val darkThemex= isSystemInDarkTheme()
+            val darkThemex= isNight()
             val darkTheme = remember { mutableStateOf(darkThemex) }
+
+            val otorgarp = rememberMultiplePermissionsState(permissions = listOf(
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA,
+            ))
+            LaunchedEffect(true){
+                if (otorgarp.allPermissionsGranted){
+                    Toast.makeText(this@MainActivity, "Permiso concedido", Toast.LENGTH_SHORT).show()
+                }else{
+                    if (otorgarp.shouldShowRationale){
+                        Toast.makeText(this@MainActivity, "La aplicacion requiere este permiso",
+                            Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(this@MainActivity, "El permiso fue denegado", Toast.LENGTH_SHORT).show()
+                    }
+                    otorgarp.launchMultiplePermissionRequest()
+                }
+                Toast.makeText(this@MainActivity, "Con: ${isNetworkAvailable(this@MainActivity)}",Toast.LENGTH_LONG ).show()
+
+            }
 
             val colorScheme=when(themeType.value){
                 ThemeType.PURPLE->{if (darkTheme.value) DarkPurpleColors else LightPurpleColors}
@@ -122,6 +151,7 @@ fun MainScreen(
         Destinations.Pantalla5,
         Destinations.ActividadUI,
         Destinations.AsistenciaXUI,
+        Destinations.MaterialesxUI,
     )
     val navigationItems2 = listOf(
         Destinations.Pantalla1,

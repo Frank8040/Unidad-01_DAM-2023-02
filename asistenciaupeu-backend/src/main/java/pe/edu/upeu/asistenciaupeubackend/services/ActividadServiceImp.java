@@ -74,6 +74,7 @@ public class ActividadServiceImp implements ActividadService{
     public Actividad update(Actividad activiad, Long id) {
         Actividad actividadx = actividadRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Periodo not exist with id :" + id));
+        actividadx.setNombreActividad(activiad.getNombreActividad());
         actividadx.setFecha(activiad.getFecha());
         actividadx.setHorai(activiad.getHorai());        
         actividadx.setEstado(activiad.getEstado());

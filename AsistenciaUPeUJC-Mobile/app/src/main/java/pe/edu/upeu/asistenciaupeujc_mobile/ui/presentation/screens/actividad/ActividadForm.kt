@@ -69,6 +69,8 @@ fun ActividadForm(
 
 }
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "MissingPermission",
     "CoroutineCreationDuringComposition"
@@ -180,6 +182,7 @@ fun formulario(id:Long,
         }
     }
 }
+
 
 fun splitCadena(data:String):String{
     return if(data!="") data.split("-")[0] else ""

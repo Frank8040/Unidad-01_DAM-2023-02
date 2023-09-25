@@ -19,7 +19,9 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.Size;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,11 +44,12 @@ public class Asistenciax {
     @Basic(optional = false)
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private LocalDate fecha;
+    @JsonFormat(pattern = "HH:mm:ss") 
     @Basic(optional = false)    
     @Column(name = "hora_reg", nullable = false)
     @Temporal(TemporalType.TIME)
-    private Date horaReg;
+    private LocalTime horaReg;
     @Size(max = 60)
     private String latituda;
     @Size(max = 60)

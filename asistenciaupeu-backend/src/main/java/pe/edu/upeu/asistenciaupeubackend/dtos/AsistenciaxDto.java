@@ -19,9 +19,9 @@ import pe.edu.upeu.asistenciaupeubackend.models.Actividad;
 public class AsistenciaxDto {
     Long id;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    Date fecha;
+    LocalDate fecha;
     @JsonFormat(pattern = "HH:mm:ss")
-    Date horaReg;
+    LocalTime horaReg;
     String latituda;
     String longituda;
     String tipo;
@@ -34,7 +34,7 @@ public class AsistenciaxDto {
     @JsonIgnoreProperties({ "asistenciaxs", "inscritos", "subactasisxs", "materialesxs" })
     Actividad actividadId;
 
-    public record AsistenciasxCrearDto(Long id, Date fecha, Date horaReg, String latituda,
+    public record AsistenciasxCrearDto(Long id, LocalDate fecha, LocalTime horaReg, String latituda,
             String longituda, String tipo, int calificacion, String cui, String tipoCui, String entsal, 
             Long subactasisId, String offlinex, Long actividadId) {
     }

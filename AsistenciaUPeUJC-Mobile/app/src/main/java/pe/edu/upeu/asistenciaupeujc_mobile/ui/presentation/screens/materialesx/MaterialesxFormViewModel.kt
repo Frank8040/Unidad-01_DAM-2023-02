@@ -11,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import pe.edu.upeu.asistenciaupeujc_mobile.models.Actividad
+import pe.edu.upeu.asistenciaupeujc_mobile.models.ComboModel
 import pe.edu.upeu.asistenciaupeujc_mobile.models.Materialesx
 import pe.edu.upeu.asistenciaupeujc_mobile.models.MaterialesxReport
 import pe.edu.upeu.asistenciaupeujc_mobile.repository.ActividadRepository
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MaterialesxFormViewModel @Inject constructor(
     private val materRepo: MaterialesxRepository,
+    private val activRepo: ActividadRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel(){
     private val _isLoading: MutableLiveData<Boolean> by lazy {
@@ -29,8 +31,22 @@ class MaterialesxFormViewModel @Inject constructor(
     fun getMaterialesx(idX: Long): LiveData<Materialesx> {
         return materRepo.buscarMaterialesxId(idX)
     }
-
     val isLoading: LiveData<Boolean> get() = _isLoading
+
+    val activ: LiveData<List<Actividad>> by lazy { activRepo.reportarActividades()}
+    var listE = mutableListOf<ComboModel>(ComboModel(0.toString(), "Seleccione"))
+
+    init {
+        viewModelScope.launch {
+            _isLoading.postValue(true)
+            delay(1500)
+            activ.value?.forEach {
+                listE.add(ComboModel(code = it.id.toString(), name = it.nombreActividad))
+            }
+            //listE.removeAt(0)
+            _isLoading.postValue(false)
+        }
+    }
 
     fun addMaterialesx(materialesx: Materialesx){
         viewModelScope.launch (Dispatchers.IO){
@@ -41,7 +57,6 @@ class MaterialesxFormViewModel @Inject constructor(
             }
         }
     }
-    
     fun editMaterialesx(materialesx: Materialesx){
         viewModelScope.launch(Dispatchers.IO){
             try {

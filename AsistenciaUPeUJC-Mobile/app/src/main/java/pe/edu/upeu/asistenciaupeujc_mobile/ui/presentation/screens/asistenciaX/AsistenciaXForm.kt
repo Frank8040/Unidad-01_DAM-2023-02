@@ -37,6 +37,7 @@ import pe.edu.upeu.asistenciaupeujc_mobile.ui.navigation.Destinations
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.Spacer
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.form.AccionButtonCancel
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.form.AccionButtonSuccess
+import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.form.ComboBox
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.form.DatePickerCustom
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.form.DropdownMenuCustom
 import pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.components.form.MyFormKeys
@@ -110,6 +111,8 @@ fun formulario(id:Long,
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val isLoading by viewModel.isLoading.observeAsState(false)
+    val actis by viewModel.activ.observeAsState(arrayListOf())
+
     var locationCallback: LocationCallback? = null
     var fusedLocationClient: FusedLocationProviderClient? = null
     fusedLocationClient = LocationServices.getFusedLocationProviderClient(
@@ -144,19 +147,19 @@ fun formulario(id:Long,
         BuildEasyForms { easyForm ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 DatePickerCustom(easyForm = easyForm, label = "Fecha", texts = actividad?.fecha!!, MyFormKeys.FECHA,"yyyy-MM-dd")
-                TimePickerCustom(easyForm = easyForm, label = "Hora", texts = actividad?.horaReg!!, MyFormKeys.TIME, "HH:mm:ss")
+                TimePickerCustom(easyForm = easyForm, label = "hora_reg", texts = actividad?.horaReg!!, MyFormKeys.HORAREG, "HH:mm:ss")
                 NameTextField(easyForms = easyForm, text =actividad?.tipo!!,"Tipo:", MyFormKeys.TIPO )
                 NameTextField(easyForms = easyForm, text = actividad.calificacion.toString(), label = "Calificación:", key = MyFormKeys.CALIFICACION)
-                NameTextField(easyForms = easyForm, text =actividad?.cui!!,"Tipo CUI:", MyFormKeys.CUI )
-                NameTextField(easyForms = easyForm, text =actividad?.tipoCui!!,"Tipo CUI:", MyFormKeys.TIPOCUI )
+                NameTextField(easyForms = easyForm, text =actividad?.cui!!,"Nomb. Cui:", MyFormKeys.CUI )
+                NameTextField(easyForms = easyForm, text =actividad?.tipoCui!!,"Nomb. tipoCui:", MyFormKeys.TIPOCUI )
                 var listEv = listOf(
                     ComboModel("SI","SI"),
                     ComboModel("NO","NO"),
                 )
                 DropdownMenuCustom(easyForm = easyForm, label = "Reg. Entrada y Salida:", actividad.entsal, list =listEv, MyFormKeys.ENTSAL )
                 NameTextField(easyForms = easyForm, text = actividad.subactasisId.toString(), label = "SubactasisId:", key = MyFormKeys.SUBACTASISID)
-                DropdownMenuCustom(easyForm = easyForm, label = "Reg. Offline:", actividad.offlinex, list =listEv, MyFormKeys.OFFLINE )
-                NameTextField(easyForms = easyForm, text =actividad?.actividadId!!.toString(),"actividadID:", MyFormKeys.ACTIVIDADID )
+                ComboBox(easyForm = easyForm, "offlinex:", actividad?.offlinex!!, listEv)
+                DropdownMenuCustom(easyForm = easyForm, label = "Actividad:", textv ="", viewModel.listE, MyFormKeys.ACTIVIDADID )
 
                 Row(Modifier.align(Alignment.CenterHorizontally)){
                     AccionButtonSuccess(easyForms = easyForm, "Guardar", id){
@@ -164,14 +167,17 @@ fun formulario(id:Long,
 
                         person.fecha=(lista.get(0) as EasyFormsResult.GenericStateResult<String>).value
                         person.horaReg=(lista.get(1) as EasyFormsResult.GenericStateResult<String>).value
-                        person.tipo=((lista.get(2) as EasyFormsResult.GenericStateResult<String>).value)
-                        person.calificacion = (lista.get(3) as EasyFormsResult.GenericStateResult<String>).value.toLong()
-                        person.cui=((lista.get(4) as EasyFormsResult.GenericStateResult<String>).value)
-                        person.tipoCui=((lista.get(5) as EasyFormsResult.GenericStateResult<String>).value)
+                        person.tipo=(lista.get(2) as EasyFormsResult.StringResult).value
+                        person.calificacion = (lista.get(3) as EasyFormsResult.StringResult).value.toLong()
+                        person.cui=(lista.get(4) as EasyFormsResult.StringResult).value
+                        person.tipoCui=(lista.get(5) as EasyFormsResult.StringResult).value
                         person.entsal= splitCadena((lista.get(6) as EasyFormsResult.GenericStateResult<String>).value)
-                        person.subactasisId = (lista.get(7) as EasyFormsResult.GenericStateResult<String>).value.toLong()
+                        person.subactasisId = (lista.get(7) as EasyFormsResult.StringResult).value.toLong()
                         person.offlinex= splitCadena((lista.get(8) as EasyFormsResult.GenericStateResult<String>).value)
-                        person.actividadId = (lista.get(9) as EasyFormsResult.StringResult).value.toLong()
+                        person.actividadId=
+                            pe.edu.upeu.asistenciaupeujc_mobile.ui.presentation.screens.asistenciaX.splitCadena(
+                                (lista.get(9) as EasyFormsResult.GenericStateResult<String>).value
+                            ).toLong()
 
                         if (id==0.toLong()){
                             Log.i("AGREGAR", "ES:"+ person.entsal)

@@ -27,11 +27,11 @@ sealed class Destinations(
 
     object Pantalla5 : Destinations( "pantalla5", "Perfil", Icons.Filled.AccountBox )
 
-    object ActividadUI: Destinations("ActividadUI","Adm. Actividades", Icons.Filled.DateRange)
+    object ActividadUI: Destinations("actividadUI","Adm. Actividades", Icons.Filled.DateRange)
 
-    object ActividadForm: Destinations("ActividadForm?actId={actId}", "Form Actividad", Icons.Filled.Add){
+    object ActividadForm: Destinations("actividadForm?actId={actId}", "Form Actividad", Icons.Filled.Add){
         fun passId(actId:String?):String{
-            return "ActividadForm?actId=$actId"
+            return "actividadForm?actId=$actId"
         }
     }
 

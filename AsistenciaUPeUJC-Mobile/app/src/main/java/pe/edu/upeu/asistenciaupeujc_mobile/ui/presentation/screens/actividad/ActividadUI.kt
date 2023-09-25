@@ -82,17 +82,18 @@ ActividadViewModel= hiltViewModel(), navController: NavHostController
     )
 }
 
+
 val formatoFecha: DateTimeFormatter? = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyApp( navController: NavHostController,
-    onAddClick: (() -> Unit)? = null,
-    onDeleteClick: ((toDelete: Actividad) -> Unit)? = null,
-    actividades: List<Actividad>,
-    isLoading: Boolean,
-    onEditClick: ((toPersona: Actividad) -> Unit)? = null,
+           onAddClick: (() -> Unit)? = null,
+           onDeleteClick: ((toDelete: Actividad) -> Unit)? = null,
+           actividades: List<Actividad>,
+           isLoading: Boolean,
+           onEditClick: ((toPersona: Actividad) -> Unit)? = null,
 ) {
     val context = LocalContext.current
     //val navController = rememberNavController()
@@ -102,10 +103,10 @@ fun MyApp( navController: NavHostController,
         Destinations.Pantalla2,
         Destinations.Pantalla3
     )
-  /*  val scaffoldState = rememberScaffoldState(
-        drawerState = rememberDrawerState(initialValue =
-        DrawerValue.Closed)
-    )*/
+    /*  val scaffoldState = rememberScaffoldState(
+          drawerState = rememberDrawerState(initialValue =
+          DrawerValue.Closed)
+      )*/
 
     val fabItems = listOf(
         FabItem(
@@ -118,14 +119,14 @@ fun MyApp( navController: NavHostController,
         },
         FabItem(
             Icons.Filled.Favorite,
-            "Add Actividad"
+            "Add Actvidad"
         ) { onAddClick?.invoke() }
     )
 
     Scaffold(
         bottomBar = {
             BottomAppBar {
-            BottomNavigationBar(navigationItems2, navController = navController)
+                BottomNavigationBar(navigationItems2, navController = navController)
             }
         },
         modifier = Modifier,
@@ -137,7 +138,7 @@ fun MyApp( navController: NavHostController,
                 showLabels = true
             )
         },
-    floatingActionButtonPosition = FabPosition.End,
+        floatingActionButtonPosition = FabPosition.End,
     ) {
         Box(modifier = Modifier.fillMaxSize()){
             LazyColumn(modifier = Modifier
@@ -192,7 +193,7 @@ fun MyApp( navController: NavHostController,
                                 MaterialTheme.colorScheme.primary)
                             }
 
-                           Spacer()
+                            Spacer()
                             val showDialog = remember { mutableStateOf(false) }
                             IconButton(onClick = {
                                 showDialog.value = true

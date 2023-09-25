@@ -22,13 +22,10 @@ class MaterialesxViewModel @Inject constructor(
     private val _isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
-    
     val activ: LiveData<List<MaterialesxConActividad>> by lazy {
         matexRepo.reportarMaterialesxes()
     }
-    
     val isLoading: LiveData<Boolean> get() = _isLoading
-
     fun addMaterialesx() {
         if (_isLoading.value == false)
             viewModelScope.launch (Dispatchers.IO) {

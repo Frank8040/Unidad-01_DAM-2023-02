@@ -86,6 +86,7 @@ MaterialesxViewModel= hiltViewModel(), navController: NavHostController
     )
 }
 
+
 val formatoFecha: DateTimeFormatter? = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -227,10 +228,14 @@ fun MyApp(navController: NavHostController,
                                     tint = MaterialTheme.colorScheme.secondary
                                 )
                             }
+
+
                         }
                     }
                 }
             }
+
         }
+
     }
 }

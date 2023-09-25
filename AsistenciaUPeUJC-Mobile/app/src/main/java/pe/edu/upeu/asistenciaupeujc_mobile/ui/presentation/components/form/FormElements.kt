@@ -231,6 +231,7 @@ fun DropdownMenuCustom(
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerCustom(
@@ -303,12 +304,17 @@ fun DatePickerCustom(
     )
 }
 
+
+
+
+
 fun dateShort(formF:String,r: Date?): String {
     return if (r != null) SimpleDateFormat(formF).format(r) else ""
 }
 fun timeShort(formF:String, r: Date?): String { //"HH:mm:ss"
     return if (r != null) SimpleDateFormat(formF).format(r) else ""
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
