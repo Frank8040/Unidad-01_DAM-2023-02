@@ -42,7 +42,7 @@ public class MaterialesxServiceImp implements MaterialesxService {
     @Override
     public Materialesx save(MaterialesxDto.MaterialesxCrearDto materialesx) {
 
-        Materialesx matEnt=materialesxMapper.materialesxCrearDtoToMaterialesx(materialesx);
+        Materialesx matEnt = materialesxMapper.materialesxCrearDtoToMaterialesx(materialesx);
         matEnt.setActividadId(actividadService.getActividadById(materialesx.actividadId()));
         System.out.println(materialesx.fecha());
         System.out.println(materialesx.horaReg());
@@ -85,10 +85,22 @@ public class MaterialesxServiceImp implements MaterialesxService {
     public Materialesx update(MaterialesxDto.MaterialesxCrearDto materialesx, Long id) {
         Materialesx materialesxx = materialesxRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Periodo not exist with id :" + id));
-            System.out.println("IMPRIME:"+materialesx.modFh());
+        System.out.println("IMPRIME:" + materialesx.modFh());
+        materialesxx.setCui(materialesx.cui());
+        materialesxx.setTipoCui(materialesx.tipoCui());
+        materialesxx.setMaterEntre(materialesx.materEntre());
         materialesxx.setFecha(materialesx.fecha());
         materialesxx.setHoraReg(materialesx.horaReg());
+        if (materialesx.latituda() != null) {
+            materialesxx.setLatituda(materialesx.latituda());
+        }
+    
+        if (materialesx.longituda() != null) {
+            materialesxx.setLongituda(materialesx.longituda());
+        }
+        materialesxx.setModFh(materialesx.modFh());
         materialesxx.setOfflinex(materialesx.offlinex());
+        materialesxx.setActividadId(actividadService.getActividadById(materialesx.actividadId()));
         return materialesxRepo.save(materialesxx);
     }
 

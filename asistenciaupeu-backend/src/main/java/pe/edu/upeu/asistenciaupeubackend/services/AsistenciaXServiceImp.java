@@ -83,11 +83,22 @@ public class AsistenciaXServiceImp implements AsistenciaXService {
                 .orElseThrow(() -> new ResourceNotFoundException("Periodo not exist with id :" + id));
         asistenciaxx.setFecha(asistenciax.fecha());
         asistenciaxx.setHoraReg(asistenciax.horaReg());
-        asistenciaxx.setOfflinex(asistenciax.offlinex());
-        if (asistenciaxx.getActividadId() != null) {
-            asistenciaxx.setActividadId(asistenciaxx.getActividadId());
+        if (asistenciax.latituda() != null) {
+            asistenciaxx.setLatituda(asistenciax.latituda());
         }
-        
+
+        if (asistenciax.longituda() != null) {
+            asistenciaxx.setLongituda(asistenciax.longituda());
+        }
+        asistenciaxx.setTipo(asistenciax.tipo());
+        asistenciaxx.setCalificacion(asistenciax.calificacion());
+        asistenciaxx.setCui(asistenciax.cui());
+        asistenciaxx.setTipoCui(asistenciax.tipoCui());
+        asistenciaxx.setEntsal(asistenciax.entsal());
+        asistenciaxx.setSubactasisId(asistenciax.subactasisId());
+        asistenciaxx.setOfflinex(asistenciax.offlinex());
+        asistenciaxx.setActividadId(actividadService.getActividadById(asistenciax.actividadId()));
+
         return asistenciaXRepo.save(asistenciaxx);
     }
 }

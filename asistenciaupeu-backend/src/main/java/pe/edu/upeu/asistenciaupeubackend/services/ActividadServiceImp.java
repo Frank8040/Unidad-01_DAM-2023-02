@@ -26,20 +26,18 @@ import pe.edu.upeu.asistenciaupeubackend.repositories.ActividadRepository;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class ActividadServiceImp implements ActividadService{
+public class ActividadServiceImp implements ActividadService {
 
     @Autowired
     private ActividadRepository actividadRepo;
 
-
-    
     @Override
     public Actividad save(Actividad activiad) {
-        
+
         try {
             return actividadRepo.save(activiad);
         } catch (Exception e) {
-            throw new AppException("Error-"+e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new AppException("Error-" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -48,7 +46,7 @@ public class ActividadServiceImp implements ActividadService{
         try {
             return actividadRepo.findAll();
         } catch (Exception e) {
-            throw new AppException("Error-"+e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new AppException("Error-" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -61,13 +59,14 @@ public class ActividadServiceImp implements ActividadService{
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", true);
 
-        return response;        
+        return response;
     }
 
     @Override
     public Actividad getActividadById(Long id) {
-        Actividad findActividad = actividadRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Activiad not exist with id :" + id));
-        return findActividad;        
+        Actividad findActividad = actividadRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Activiad not exist with id :" + id));
+        return findActividad;
     }
 
     @Override
@@ -76,9 +75,24 @@ public class ActividadServiceImp implements ActividadService{
                 .orElseThrow(() -> new ResourceNotFoundException("Periodo not exist with id :" + id));
         actividadx.setNombreActividad(activiad.getNombreActividad());
         actividadx.setFecha(activiad.getFecha());
-        actividadx.setHorai(activiad.getHorai());        
+        actividadx.setHorai(activiad.getHorai());
+        actividadx.setMinToler(activiad.getMinToler());
         actividadx.setEstado(activiad.getEstado());
-        return actividadRepo.save(actividadx);        
+        if (activiad.getLatitud() != null) {
+            actividadx.setLatitud(activiad.getLatitud());
+        }
+
+        if (activiad.getLongitud() != null) {
+            actividadx.setLongitud(activiad.getLongitud());
+        }
+        actividadx.setEvaluar(activiad.getEvaluar());
+        actividadx.setUserCreate(activiad.getUserCreate());
+        actividadx.setMater(activiad.getMater());
+        actividadx.setValidInsc(activiad.getValidInsc());
+        actividadx.setAsisSubact(activiad.getAsisSubact());
+        actividadx.setEntsal(activiad.getEntsal());
+        actividadx.setOfflinex(activiad.getOfflinex());
+        return actividadRepo.save(actividadx);
     }
-    
+
 }
